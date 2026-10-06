@@ -1,5 +1,6 @@
 import { HttpError } from "./types";
 const encoder = new TextEncoder();
+// Encryption AAD is a stable protocol identifier, not branding. Keep it for existing tokens.
 export function b64(bytes: Uint8Array): string {
   return btoa(String.fromCharCode(...bytes))
     .replace(/\+/g, "-")

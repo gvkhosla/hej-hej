@@ -1,4 +1,4 @@
-# Pi Assistant
+# hej hej
 
 A small, self-hosted personal assistant you text through **Apple Messages (iMessage)** or **WhatsApp**. Powered by **Pi Durable**.
 
@@ -43,8 +43,8 @@ The Worker acknowledges admission without waiting for the model. Lifecycle alarm
 Use Node 24 LTS (bridge minimum: Node 22.13), a Cloudflare account, and your own Google/Meta/Tavily credentials. Cloudflare AI and Tavily may incur usage charges.
 
 ```sh
-git clone https://github.com/gvkhosla/pi-assistant.git
-cd pi-assistant
+git clone https://github.com/gvkhosla/hej-hej.git
+cd hej-hej
 npm ci
 npm run check
 npx wrangler login
@@ -126,7 +126,7 @@ npm run bridge
 
 The first start skips history. Only **new, plain-text, one-to-one iMessages** from the configured handle are admitted; self messages, groups, attachments, reactions and SMS are excluded. The Messages database opens read-only. Replies use AppleScript with text passed as arguments, never interpolated into source.
 
-Bridge state is stored privately in `~/.local/state/pi-assistant` (directory mode 700, files created under umask 077). Keep it on the Mac's local encrypted disk. A stale `bridge.lock` after a crash must be removed **only after verifying no bridge process is running**. On restart, uncertain local sends are acknowledged as unknown, not sent again. A lost server claim can leave `attempted` without a local record; inspect it using the admin API. If the Messages schema differs on your macOS version, the bridge fails closed.
+Bridge state is stored privately in `~/.local/state/pi-assistant` (the legacy location is retained across the hej hej rename to preserve delivery history) (directory mode 700, files created under umask 077). Keep it on the Mac's local encrypted disk. A stale `bridge.lock` after a crash must be removed **only after verifying no bridge process is running**. On restart, uncertain local sends are acknowledged as unknown, not sent again. A lost server claim can leave `attempted` without a local record; inspect it using the admin API. If the Messages schema differs on your macOS version, the bridge fails closed.
 
 This is local macOS automation, not an Apple-supported bot API. Real Mac permissions and actual account delivery must be tested on your machine.
 
@@ -155,6 +155,10 @@ All `/v1/*` and `POST /oauth/google/start` require the admin bearer token. All `
 Limits: 8,000 input characters, 3,800 reply characters, 50 new messages/day, 10 queued/running messages, 1,000 receipts, 8 generation attempts and 8 tool calls/request, 120-second request deadline. Gmail search returns at most 5 messages; web search at most 5 sources, source read at most 2. HTTP timeouts and response-size limits apply.
 
 **Retention:** transcripts and read email excerpts remain in the owner's Durable Object until a full reset. Delete finished receipts to manage the receipt limit, and reset periodically to remove all history. Reset refuses active requests/unsettled channel replies. Stop channel ingress/bridge, inspect and delete remaining uncertain receipts, then reset. Reset also clears dedupe: old inbound IDs could be admitted again. Delete the Mac bridge's state separately if you want to wipe local queues.
+
+## Upgrading from Pi Assistant
+
+The project is now **hej hej**; the repository is `gvkhosla/hej-hej`. Existing deployments should keep their configured Worker name, URLs, credentials and bridge state directory—changing a Worker name creates a new deployment, not a data migration. Token encryption identifiers are unchanged, so existing Gmail credentials remain readable.
 
 ## Development
 

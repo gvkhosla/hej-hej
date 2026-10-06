@@ -39,6 +39,7 @@ if (
 if (base.username || base.password || base.search || base.hash)
   throw new Error("Invalid ASSISTANT_URL");
 process.umask(0o077);
+// Keep the legacy directory so rebranding never loses in-flight delivery markers.
 const directory = resolve(
   process.env.BRIDGE_STATE_DIR ??
     resolve(homedir(), ".local/state/pi-assistant"),
@@ -110,7 +111,7 @@ const send = (text) => sendMessage(IMESSAGE_OWNER, text, IMESSAGE_SERVICE_ID);
 if (state.cursor() === undefined)
   state.enqueue({ cursor: maxRow(messages), messages: [] });
 console.log(
-  "iMessage bridge running. Only new plain-text, one-to-one owner messages are accepted.",
+  "hej hej iMessage bridge running. Only new plain-text, one-to-one owner messages are accepted.",
 );
 while (true) {
   try {

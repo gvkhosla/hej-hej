@@ -25,7 +25,7 @@ DELETE /v1/gmail removes stored credentials but does not revoke the Google grant
 
 ## Reporting
 
-Please report vulnerabilities privately via [GitHub's security reporting](https://github.com/gvkhosla/pi-assistant/security/advisories/new), if enabled, rather than posting credentials or private messages in a public issue. If private reporting is unavailable, open a minimal issue requesting a private contact, without exploit details or user data.
+Please report vulnerabilities privately via [GitHub's security reporting](https://github.com/gvkhosla/hej-hej/security/advisories/new), if enabled, rather than posting credentials or private messages in a public issue. If private reporting is unavailable, open a minimal issue requesting a private contact, without exploit details or user data.
 
 ## Release validation
 

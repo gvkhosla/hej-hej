@@ -1,9 +1,9 @@
 {
-  "name": "pi-assistant",
+  "name": "hej-hej",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "A personal Pi Durable assistant over iMessage and WhatsApp, with read-only Gmail and public web research.",
+  "description": "hej hej — a personal Pi Durable assistant over iMessage and WhatsApp, with read-only Gmail and public web research.",
   "license": "MIT",
   "engines": {
     "node": ">=22.13"

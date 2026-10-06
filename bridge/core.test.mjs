@@ -100,7 +100,7 @@ test("AppleScript text, buddy and service are argv, not source interpolation", a
   assert.deepEqual(invocation.args.slice(2), ["--", "owner", text, "service"]);
 });
 test("Messages reader ignores self, groups, reactions, attachments and outsiders; advances cursor", () => {
-  const dir = mkdtempSync(join(tmpdir(), "pi-assistant-test-")),
+  const dir = mkdtempSync(join(tmpdir(), "hej-hej-test-")),
     path = join(dir, "messages.db");
   const db = new DatabaseSync(path);
   db.exec(`CREATE TABLE message(guid TEXT,text TEXT,handle_id INTEGER,is_from_me INTEGER DEFAULT 0,cache_has_attachments INTEGER DEFAULT 0,item_type INTEGER DEFAULT 0,associated_message_type INTEGER DEFAULT 0,service TEXT DEFAULT 'iMessage');
