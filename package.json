@@ -1,0 +1,41 @@
+{
+  "name": "pi-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A personal Pi Durable assistant over iMessage and WhatsApp, with read-only Gmail and public web research.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "wrangler dev --config ./wrangler.jsonc",
+    "deploy": "wrangler deploy --config ./wrangler.jsonc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run && node --test bridge/*.test.mjs",
+    "fmt": "prettier --write .",
+    "check": "prettier --check . && npm run typecheck && npm test && wrangler deploy --dry-run --config ./wrangler.jsonc",
+    "bridge": "node bridge/index.mjs"
+  },
+  "dependencies": {
+    "@earendil-works/pi-ai": "1.0.0",
+    "@earendil-works/pi-durable": "1.0.0",
+    "agents": "0.26.0",
+    "typebox": "1.1.6"
+  },
+  "overrides": {
+    "@modelcontextprotocol/client": "2.3.1",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "undici": "7.30.0",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.19.1",
+    "@cloudflare/workers-types": "5.20261006.1",
+    "@types/node": "24.10.1",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "vitest": "4.1.11",
+    "wrangler": "4.145.0"
+  }
+}

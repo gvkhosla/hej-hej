@@ -1,0 +1,26 @@
+{
+  "name": "pi-assistant-test",
+  "main": "../src/worker.ts",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ASSISTANT",
+        "class_name": "Assistant",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Assistant"],
+    },
+  ],
+  "vars": {
+    "MODEL_ID": "unused-in-tests",
+    "PUBLIC_URL": "https://assistant.test",
+    "OWNER_EMAIL": "owner@example.com",
+    "WHATSAPP_GRAPH_VERSION": "v23.0",
+  },
+}
