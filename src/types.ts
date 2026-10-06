@@ -19,6 +19,7 @@ export interface Env {
   WHATSAPP_BUSINESS_ID?: string;
   WHATSAPP_GRAPH_VERSION: string;
   TEST_MODE?: string;
+  DEMO_MODE?: string;
 }
 export type Channel = "api" | "imessage" | "whatsapp";
 export interface Message {
@@ -35,6 +36,7 @@ export interface Message {
     | "failed"
     | "unknown";
   response?: string;
+  completion?: "done" | "unanswered" | "timeout";
   providerId?: string;
   attempts: number;
   session?: string;

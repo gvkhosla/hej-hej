@@ -1,6 +1,6 @@
 {
   "name": "hej-hej",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "hej hej — a personal Pi Durable assistant over iMessage and WhatsApp, with read-only Gmail and public web research.",
@@ -9,18 +9,30 @@
     "node": ">=22.13"
   },
   "scripts": {
-    "dev": "wrangler dev --config ./wrangler.jsonc",
-    "deploy": "wrangler deploy --config ./wrangler.jsonc",
+    "demo": "node scripts/demo.mjs",
+    "demo:check": "node scripts/demo.mjs --check",
+    "setup": "node scripts/cli.mjs setup",
+    "login": "node scripts/cli.mjs login",
+    "dev": "node scripts/cli.mjs dev",
+    "deploy": "node scripts/cli.mjs deploy",
+    "secret": "node scripts/cli.mjs secret",
+    "doctor": "node scripts/cli.mjs doctor",
+    "ask": "node scripts/cli.mjs ask",
+    "smoke": "node scripts/cli.mjs smoke",
+    "connect:gmail": "node scripts/cli.mjs connect:gmail",
+    "bridge:setup": "node scripts/cli.mjs bridge:setup",
+    "bridge:services": "node scripts/cli.mjs bridge:services",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run && node --test bridge/*.test.mjs",
+    "test": "vitest run && node --test bridge/*.test.mjs scripts/*.test.mjs",
     "fmt": "prettier --write .",
     "check": "prettier --check . && npm run typecheck && npm test && wrangler deploy --dry-run --config ./wrangler.jsonc",
-    "bridge": "node bridge/index.mjs"
+    "bridge": "node scripts/cli.mjs bridge"
   },
   "dependencies": {
     "@earendil-works/pi-ai": "1.0.0",
     "@earendil-works/pi-durable": "1.0.0",
     "agents": "0.26.0",
+    "jsonc-parser": "3.3.1",
     "typebox": "1.1.6"
   },
   "overrides": {

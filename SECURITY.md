@@ -2,6 +2,12 @@
 
 This is an experimental, single-owner, self-hosted assistant—not a hardened multi-tenant service. Don't connect a shared/public Pi demo to Gmail.
 
+## Local setup and demo
+
+The managed CLI stores configuration and credentials under the gitignored `.hej-hej/` directory (mode 700; files mode 600). Treat that folder as a credential store, not a shareable setup artifact. Integration values are entered with hidden prompts or stdin, then uploaded to Cloudflare over stdin; secrets are never placed in subprocess arguments. Setup preserves existing keys; managed deploy refuses implicit core-key rotation or overwriting existing remote credentials. An interrupted first deployment may require explicit recovery—do not regenerate keys to bypass the warning.
+
+The demo is a separate, loopback-only Worker configuration with no AI binding. It uses publicly known **fake** credentials, scripted replies and temporary storage. It blocks OAuth and messaging routes. Do not deploy `demo/wrangler.jsonc`, enable DEMO_MODE/TEST_MODE on a real deployment, or copy demo credentials to a live account. The demo and automated tests are not evidence of live provider connectivity. A live `smoke` request may incur Workers AI charges; configured-key checks in `doctor` are not delivery tests.
+
 ## Trust boundaries
 
 - Admin and bridge tokens must be distinct, random, at least 32 characters, sent only over HTTPS. The bridge token can admit/read the owner's iMessage work, but cannot configure Gmail or read WhatsApp/API results. Protect it accordingly.
@@ -19,7 +25,7 @@ This is an experimental, single-owner, self-hosted assistant—not a hardened mu
 
 Gmail excerpts, prompts, replies and transcripts are retained in Cloudflare SQLite. Selected material is processed by Workers AI; explicit public topics and selected public pages are processed by Tavily. Messages also pass through Apple or Meta depending on channel. Cloudflare platform logs may capture operational metadata; application observability is disabled and errors are sanitized, but operators should review their platform logging settings.
 
-The public repository contains code and examples only. Keep secrets, .dev.vars, .env files, Messages databases, bridge state and transcripts out of version control.
+The public repository contains code and examples only. Keep secrets, `.hej-hej/`, .dev.vars, .env files, Messages databases, bridge state and transcripts out of version control.
 
 DELETE /v1/gmail removes stored credentials but does not revoke the Google grant or remove old excerpts. Revoke the app in Google Account settings. DELETE /v1/messages/:id removes only a receipt. POST /v1/reset removes all durable data and credentials; stop ingress and resolve/delete pending deliveries first. Delete Mac state separately. Cloudflare/provider backup, legal retention and deletion policies remain outside this app's control.
 
@@ -29,4 +35,4 @@ Please report vulnerabilities privately via [GitHub's security reporting](https:
 
 ## Release validation
 
-Automated tests use a faux model and mocked Google/Meta/Tavily HTTP responses plus a synthetic Messages database. A Wrangler dry run verifies bundling, not real provider/account delivery. Live Gmail consent, WhatsApp business provisioning and macOS permissions require owner setup and explicit real-account smoke tests.
+Automated tests use a faux model and mocked Google/Meta/Tavily HTTP responses plus a synthetic Messages database. `demo:check` starts a real localhost Worker and exercises authentication, admission, durable reply, deduplication and demo route restrictions with scripted generation. A Wrangler dry run verifies bundling, not real provider/account delivery. Live Gmail consent, WhatsApp business provisioning and macOS permissions require owner setup and explicit real-account smoke tests.

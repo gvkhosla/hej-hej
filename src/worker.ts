@@ -198,7 +198,8 @@ export class Assistant extends DurableObject<Env> {
     }
     if (path === "/v1/status" && method === "GET")
       return json({
-        version: "0.1.0",
+        version: "0.2.0",
+        mode: this.env.DEMO_MODE === "true" ? "demo" : "live",
         gmail: await this.gmail.connected(),
         web: !!this.env.TAVILY_API_KEY,
         whatsapp: !!(
@@ -311,6 +312,7 @@ export class Assistant extends DurableObject<Env> {
       }
       if (Date.now() - (m.started ?? m.created) > 120000) {
         await this.harness.abort({ operationId: m.id, session: m.session });
+        m.completion = "timeout";
         m.response =
           "This request exceeded its time budget. Please try a smaller request.";
         m.status = "ready";
@@ -330,6 +332,10 @@ export class Assistant extends DurableObject<Env> {
           });
           // Tools update persisted budgets while wait is running; do not overwrite them.
           m = this.store.get(m.id)!;
+          m.completion =
+            outcome.status === "done" && outcome.text?.trim()
+              ? "done"
+              : "unanswered";
           m.response =
             outcome.status === "done" && outcome.text?.trim()
               ? outcome.text.slice(0, 3800)
@@ -381,7 +387,24 @@ export default {
       const url = new URL(request.url),
         path = url.pathname;
       if (path === "/health" && request.method === "GET")
-        return json({ ok: true, version: "0.1.0" });
+        return json({
+          ok: true,
+          product: "hej hej",
+          version: "0.2.0",
+          mode: env.DEMO_MODE === "true" ? "demo" : "live",
+        });
+      if (
+        env.DEMO_MODE === "true" &&
+        !(
+          path === "/v1/status" ||
+          path === "/v1/messages" ||
+          /^\/v1\/messages\/[A-Za-z0-9_-]+$/.test(path)
+        )
+      )
+        throw new HttpError(
+          404,
+          "Offline demo supports API messages only; no live integrations",
+        );
       if (
         !env.ADMIN_TOKEN ||
         !env.BRIDGE_TOKEN ||

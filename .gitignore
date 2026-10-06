@@ -1,5 +1,6 @@
 node_modules/
 .wrangler/
+.hej-hej/
 .dev.vars*
 .env*
 !.env.example
